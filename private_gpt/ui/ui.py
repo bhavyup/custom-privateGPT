@@ -67,8 +67,10 @@ class Source(BaseModel):
         for chunk in sources:
             doc_metadata = chunk.document.doc_metadata
 
-            file_name = doc_metadata.get("file_name", "-") if doc_metadata else "-"
-            page_label = doc_metadata.get("page_label", "-") if doc_metadata else "-"
+            file_name = doc_metadata.get(
+                "file_name", "-") if doc_metadata else "-"
+            page_label = doc_metadata.get(
+                "page_label", "-") if doc_metadata else "-"
 
             source = Source(file=file_name, page=page_label, text=chunk.text)
             curated_sources.append(source)
@@ -104,7 +106,8 @@ class PrivateGptUi:
         self._default_mode = default_mode_map.get(
             settings().ui.default_mode, Modes.RAG_MODE
         )
-        self._system_prompt = self._get_default_system_prompt(self._default_mode)
+        self._system_prompt = self._get_default_system_prompt(
+            self._default_mode)
 
     def _chat(
         self, message: str, history: list[list[str]], mode: Modes, *_: Any
@@ -279,7 +282,8 @@ class PrivateGptUi:
         self._set_explanatation_mode(self._get_default_mode_explanation(mode))
         interactive = self._system_prompt is not None
         return [
-            gr.update(placeholder=self._system_prompt, interactive=interactive),
+            gr.update(placeholder=self._system_prompt,
+                      interactive=interactive),
             gr.update(value=self._explanation_mode),
         ]
 
@@ -316,7 +320,8 @@ class PrivateGptUi:
             for doc_id in doc_ids_to_delete:
                 self._ingest_service.delete(doc_id)
 
-        self._ingest_service.bulk_ingest([(str(path.name), path) for path in paths])
+        self._ingest_service.bulk_ingest(
+            [(str(path.name), path) for path in paths])
 
     def _delete_all_files(self) -> Any:
         ingested_files = self._ingest_service.list_ingested()
@@ -387,10 +392,12 @@ class PrivateGptUi:
             ".footer { text-align: center; margin-top: 20px; font-size: 14px; display: flex; align-items: center; justify-content: center; }"
             ".footer-zylon-link { display:flex; margin-left: 5px; text-decoration: auto; color: var(--body-text-color); }"
             ".footer-zylon-link:hover { color: #C7BAFF; }"
-            ".footer-zylon-ico { height: 20px; margin-left: 5px; background-color: antiquewhite; border-radius: 2px; }",
+            ".footer-zylon-ico { height: 20px; margin-left: 5px; background-color: antiquewhite; border-radius: 2px; }"
+            "footer { display: none !important; }",
         ) as blocks:
             with gr.Row():
-                gr.HTML(f"<div class='logo'/><img src={logo_svg} alt=PrivateGPT></div")
+                gr.HTML(
+                    f"<div class='logo'/><img src={logo_svg} alt=PrivateGPT></div")
 
             with gr.Row(equal_height=False):
                 with gr.Column(scale=3):
@@ -401,7 +408,8 @@ class PrivateGptUi:
                         value=default_mode,
                     )
                     explanation_mode = gr.Textbox(
-                        placeholder=self._get_default_mode_explanation(default_mode),
+                        placeholder=self._get_default_mode_explanation(
+                            default_mode),
                         show_label=False,
                         max_lines=3,
                         interactive=False,
@@ -558,14 +566,15 @@ class PrivateGptUi:
                                 AVATAR_BOT,
                             ),
                         ),
-                        additional_inputs=[mode, upload_button, system_prompt_input],
+                        additional_inputs=[
+                            mode, upload_button, system_prompt_input],
                     )
 
             with gr.Row():
                 avatar_byte = AVATAR_BOT.read_bytes()
                 f_base64 = f"data:image/png;base64,{base64.b64encode(avatar_byte).decode('utf-8')}"
                 gr.HTML(
-                    f"<div class='footer'><a class='footer-zylon-link' href='https://zylon.ai/'>Maintained by Zylon <img class='footer-zylon-ico' src='{f_base64}' alt=Zylon></a></div>"
+                    f"<div class='footer'><a class='footer-zylon-link' href='https://github.com/bhavyup/'>Maintained by Bhavy <img class='footer-zylon-ico' src='{f_base64}' alt=Zylon></a></div>"
                 )
 
         return blocks
