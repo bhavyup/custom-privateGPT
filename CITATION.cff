@@ -8,7 +8,7 @@ message: >-
   metadata from this file.
 type: software
 authors:
-  - name: Zylon by PrivateGPT
+  - name: Bhavy by PrivateGPT
     address: hello@zylon.ai
     website: 'https://www.zylon.ai/'
 repository-code: 'https://github.com/zylon-ai/private-gpt'

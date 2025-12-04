@@ -1,0 +1,30 @@
+server:
+  env_name: ${APP_ENV:gemini}
+  port: 8002
+
+# Use OpenAI-compatible mode with Gemini's OpenAI endpoint
+llm:
+  mode: openailike
+  max_new_tokens: 512
+  context_window: 32000
+  temperature: 0.1
+
+# Use HuggingFace embeddings (Gemini embeddings also broken)
+embedding:
+  mode: huggingface
+
+huggingface:
+  embedding_hf_model_name: BAAI/bge-small-en-v1.5
+
+openai:
+  # Gemini's OpenAI-compatible endpoint
+  api_base: https://generativelanguage.googleapis.com/v1beta/openai/
+  api_key: ${GOOGLE_API_KEY:}
+  model: gemini-1.5-flash
+  request_timeout: 120.0
+
+vectorstore:
+  database: qdrant
+
+qdrant:
+  path: local_data/private_gpt/qdrant_gemini
